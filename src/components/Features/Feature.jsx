@@ -1,5 +1,6 @@
 import React from 'react';
 import './feature.css'
+import RelaxWrapper from 'react-rellax-wrapper';
 
 const Feature =()=>{
     return(
@@ -32,12 +33,14 @@ const Feature =()=>{
 					</tr>
 				</thead>
 			</table>
+			<RelaxWrapper speed ={14}>
 			<img
 					src="img/falcon-1.png"
 					alt="rocket"
 					className="rocket"
-					data-rellax-speed="14"
 			/>
+			</RelaxWrapper>
+			
 			<article>
 				<h3 className="features-subtitle">DESCRIPTION</h3>
 				<p className="features-text">

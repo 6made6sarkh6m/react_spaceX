@@ -4,19 +4,58 @@ import './style.css';
 import Main from './components/Main/Main';
 import Feature from './components/Features/Feature';
 import Footer from './components/Footer/Footer';
+import FetchData from './services/FetchData';
 
-function App() {
+class App extends React.Component {
+
+  fetchData = new FetchData();
   // const app = React.createElement('div',{classNameName: 'App'}, 'string');
   // return app;
-  return(
-    <React.Fragment>
-     <Header></Header>
-    <Main></Main>
-    <Feature></Feature>
-    <Footer></Footer>
+  
+  state = {
+    rocket : 'Falcon 1',
+    rocketFeature: null,
+    rockets : []
+  };
+  
+  componentDidMount(){
+    this.updateRocket();
+  }
 
-    </React.Fragment>
-  ); 
+  updateRocket(){
+
+    this.fetchData.getRocketModel()
+    .then(data=>{
+      this.setState({rockets: data.map(item => item.name)})
+      return data;
+    })
+    .then(data => data.find(item => item.name === this.state.rocket ))
+    .then(rocketFeature=>this.setState({rocketFeature}))
+  
+  }
+
+  changeRocket=(rocket)=>{
+    this.setState({
+      rocket
+    },this.updateRocket)
+  }
+
+  render(){
+    return(
+      <React.Fragment>
+       <Header
+        rockets={this.state.rockets}
+        changeRocket={this.changeRocket}     
+       ></Header>
+      <Main rocket ={this.state.rocket}></Main>
+      <Feature rocketFeature={this.state.rocketFeature}></Feature>
+      <Footer></Footer>
+  
+      </React.Fragment>
+    );
+  }
+
+   
   
 }
 
