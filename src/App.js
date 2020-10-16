@@ -15,11 +15,13 @@ class App extends React.Component {
   state = {
     rocket : 'Falcon 1',
     rocketFeature: null,
-    rockets : []
+    rockets : [],
+    company: null
   };
   
   componentDidMount(){
     this.updateRocket();
+    this.updateCompany();
   }
 
   updateRocket(){
@@ -40,6 +42,11 @@ class App extends React.Component {
     },this.updateRocket)
   }
 
+  updateCompany=()=>{
+    this.fetchData.getCompany()
+    .then(data=>this.setState({company:data},()=>console.log(this.state)));
+  }
+
   render(){
     return(
       <React.Fragment>
@@ -48,8 +55,8 @@ class App extends React.Component {
         changeRocket={this.changeRocket}     
        ></Header>
       <Main rocket ={this.state.rocket}></Main>
-      <Feature rocketFeature={this.state.rocketFeature}></Feature>
-      <Footer></Footer>
+      {this.state.rocketFeature && <Feature {...this.state.rocketFeature}></Feature>}
+      {this.state.company && <Footer {...this.state.company.links}></Footer>}
   
       </React.Fragment>
     );
